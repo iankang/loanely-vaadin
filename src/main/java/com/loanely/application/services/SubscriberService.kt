@@ -1,6 +1,8 @@
 package com.loanely.application.services
 
 import com.loanely.application.data.entities.SubscriberEntity
+import com.loanely.application.data.enums.Gender
+import com.loanely.application.data.enums.Qualification
 import com.loanely.application.repositories.SubscriberRepository
 import org.springframework.stereotype.Service
 import org.vaadin.crudui.crud.CrudListener
@@ -29,6 +31,14 @@ class SubscriberService(
 
     fun count():Long{
         return subscriberRepository.count()
+    }
+
+    fun countByQualification(qualification: Qualification): Long {
+        return subscriberRepository.countAllByQualification(qualification)
+    }
+
+    fun countByGender(gender:Gender):Long{
+        return subscriberRepository.countAllByGender(gender)
     }
 
     fun addAll(subLIst:List<SubscriberEntity>): MutableList<SubscriberEntity> {

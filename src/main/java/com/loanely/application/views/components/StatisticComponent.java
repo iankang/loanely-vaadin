@@ -8,7 +8,6 @@ public class StatisticComponent extends Div {
     private Div labelDiv;
 
     public StatisticComponent(String value, String label) {
-        addClassName("ui");
         addClassName("statistic");
 
         valueDiv = new Div();
