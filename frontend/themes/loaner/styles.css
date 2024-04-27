@@ -1,0 +1,14 @@
+@import url('./main-layout.css');
+@import url('./views/stats-view.css');
+@import url('./views/recovery-view.css');
+@import url('./views/qualified-base-view.css');
+@import url('./views/float-management-view.css');
+    [theme~="dark"] {
+      --lumo-primary-color: hsl(132, 86%, 55%);
+      --lumo-primary-color-50pct: hsla(132, 86%, 55%, 0.5);
+      --lumo-primary-color-10pct: hsla(132, 86%, 55%, 0.1);
+      --lumo-success-color: hsl(206, 65%, 42%);
+      --lumo-success-color-50pct: hsla(206, 65%, 42%, 0.5);
+      --lumo-success-color-10pct: hsla(206, 65%, 42%, 0.1);
+
+    }
