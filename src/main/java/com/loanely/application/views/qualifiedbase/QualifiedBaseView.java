@@ -25,15 +25,12 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.data.VaadinSpringDataHelpers;
 import com.vaadin.flow.theme.lumo.LumoUtility;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Expression;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+
+import javax.persistence.criteria.*;
 
 @PageTitle("Qualified Base")
 @Route(value = "qualified-base", layout = MainLayout.class)
@@ -133,8 +130,8 @@ public class QualifiedBaseView extends Div {
             endDate.setPlaceholder("To");
 
             // For screen readers
-            startDate.setAriaLabel("From date");
-            endDate.setAriaLabel("To date");
+            startDate.setLabel("From date");
+            endDate.setLabel("To date");
 
             FlexLayout dateRangeComponent = new FlexLayout(startDate, new Text(" – "), endDate);
             dateRangeComponent.setAlignItems(FlexComponent.Alignment.BASELINE);
@@ -205,7 +202,7 @@ public class QualifiedBaseView extends Div {
         }
 
         private Expression<String> ignoreCharacters(String characters, CriteriaBuilder criteriaBuilder,
-                Expression<String> inExpression) {
+                                                    Expression<String> inExpression) {
             Expression<String> expression = inExpression;
             for (int i = 0; i < characters.length(); i++) {
                 expression = criteriaBuilder.function("replace", String.class, expression,

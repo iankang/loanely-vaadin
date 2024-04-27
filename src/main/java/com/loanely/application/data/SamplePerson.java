@@ -1,7 +1,8 @@
 package com.loanely.application.data;
 
-import jakarta.persistence.Entity;
-import jakarta.validation.constraints.Email;
+import org.hibernate.validator.constraints.Email;
+
+import javax.persistence.Entity;
 import java.time.LocalDate;
 
 @Entity

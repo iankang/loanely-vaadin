@@ -1,0 +1,71 @@
+spring:
+  profiles:
+    active: development
+
+---
+logging:
+  level:
+    org:
+      atmosphere: warn
+server:
+  port: ${PORT:8088}
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  config:
+    activate:
+      on-profile: development
+  datasource:
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/loanely
+    username: postgres
+  jpa:
+    defer-datasource-initialization: true
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+  mustache:
+    check-template-location: false
+vaadin:
+  allowed-packages: com.vaadin,org.vaadin,dev.hilla,com.thinkit.brs,com.storedobject
+  excludeUrls: /api/**, /swagger-ui/**,
+  launch-browser: true
+  whitelisted-packages: com.vaadin,org.vaadin,com.storedobject
+---
+logging:
+  level:
+    org:
+      atmosphere: warn
+server:
+  port: ${PORT:8088}
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  config:
+    activate:
+      on-profile: production
+  datasource:
+    password: keycloak
+    url: jdbc:postgresql://18.218.12.248:37821/think
+    username: keycloak
+  jpa:
+    defer-datasource-initialization: true
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+  mustache:
+    check-template-location: false
+vaadin:
+  allowed-packages: com.vaadin,org.vaadin,dev.hilla,com.thinkit.brs,com.storedobject
+  excludeUrls: /api/**, /swagger-ui/**,
+  launch-browser: true
+  whitelisted-packages: com.vaadin,org.vaadin,com.storedobject
+
+
