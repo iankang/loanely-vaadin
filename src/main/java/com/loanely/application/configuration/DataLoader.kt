@@ -11,6 +11,7 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 @Component
 class DataLoader(
@@ -19,7 +20,10 @@ class DataLoader(
     private val loanChannelService: LoanChannelService,
     private val loanStatusService: LoanStatusService,
     private val subscriberService: SubscriberService,
-    private val loanTypeService: LoanTypeService
+    private val loanTypeService: LoanTypeService,
+    private val floatManagerService: FloatManagerService,
+    private val loanService: LoanService,
+    private val repaymentService: RepaymentService,
 ) :CommandLineRunner{
     val logger: Logger = LoggerFactory.getLogger(this.javaClass)
     fun makeRepaymentTypeEntity(){
@@ -89,11 +93,71 @@ class DataLoader(
             loanTypeService.addAll(loanTypes)
         }
     }
+
+    fun addFloat(){
+        if(floatManagerService.count() == 0L){
+            val qualifiedAmount = subscriberService.countByQualification(Qualification.QUALIFIED).times(15000)
+            floatManagerService.add(FloatManagerEntity(BigDecimal.valueOf(qualifiedAmount)))
+        }
+    }
+
+    fun addLoans(){
+        if(loanService.count() == 0L){
+            val subs = subscriberService.findAll().filter { it.qualification == Qualification.QUALIFIED }
+            val loanList = mutableListOf<Loans>()
+
+            subs.forEach { sub ->
+
+                val principal = Random().nextDouble(15000.00)
+                val serviceFee = principal.times(0.1)
+                val channel = loanChannelService.findAll().random()
+                val loanTypi = loanTypeService.findAll().random()
+                val loanStat = loanStatusService.findAll().random()
+                val loan = Loans(
+                    loanDate = faker.date().past(5,TimeUnit.DAYS),
+                    dueDate = faker.date().future(5,TimeUnit.DAYS),
+                    subscriber = sub,
+                    principal = BigDecimal.valueOf(principal),
+                    serviceFee = BigDecimal.valueOf(serviceFee),
+                    loanChannelEntity = channel,
+                    loanTypeEntity = loanTypi,
+                    loanStatusEntity = loanStat
+                )
+                loanList.add(loan)
+            }
+            logger.info("adding loans")
+            loanService.addAll(loanList)
+        }
+    }
+
+    fun addRecoveries(){
+        if(repaymentService.count() == 0L){
+            val loans = loanService.findAll().filter { it.loanStatusEntity?.loanStatus == "CLOSED" }
+            val repayments = mutableListOf<Repayment>()
+            loans.forEach { loan ->
+                val repaymentTypes = repaymentTypeService.findAll().random()
+                val repayment = Repayment(
+                    repayDate = faker.date().past(3,TimeUnit.DAYS),
+                    subscriber = loan.subscriber,
+                    loan = loan,
+                    repaymentType = repaymentTypes,
+                    amountPaid = loan.principal?.add(loan.serviceFee),
+                    repaymentTransactionRef = UUID.randomUUID().toString()
+                )
+                repayments.add(repayment)
+            }
+            logger.info("adding repayments")
+            repaymentService.addAll(repayments)
+        }
+    }
     override fun run(vararg args: String?) {
        makeRepaymentTypeEntity()
         makeLoanChannelEntityData()
         makeLoanStatusData()
         makeSubscribers()
         makeLoanTypesData()
+        addFloat()
+        addLoans()
+        addRecoveries()
     }
 }

@@ -34,4 +34,8 @@ class LoanStatusService(
     fun addAll(stati:List<LoanStatus>): MutableList<LoanStatus> {
         return loanStatusRepository.saveAll(stati)
     }
+
+    fun findStatusByStatusName(statusName:String):LoanStatus{
+        return loanStatusRepository.findByLoanStatus(statusName);
+    }
 }

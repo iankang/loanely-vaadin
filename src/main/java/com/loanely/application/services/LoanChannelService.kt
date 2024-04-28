@@ -35,4 +35,8 @@ class LoanChannelService(
     fun addAll(loanChannelList:List<LoanChannelEntity>): MutableList<LoanChannelEntity> {
         return loanChannelRepository.saveAll(loanChannelList)
     }
+
+    fun findByLoanChannel(loanChannel:String):LoanChannelEntity{
+        return loanChannelRepository.findByLoanChannel(loanChannel)
+    }
 }

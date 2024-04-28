@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import java.math.BigDecimal
-import java.sql.Date
+import java.util.*
 import javax.persistence.*
 
 @Entity(name = "tbl_loans")
@@ -19,7 +19,6 @@ data class Loans(
 
     var principal: BigDecimal? = null,
     var serviceFee: BigDecimal? = null,
-    var amountBorrowed: BigDecimal? = null,
     @ManyToOne
     @JoinColumn(name = "loan_channel_id")
     var loanChannelEntity: LoanChannelEntity? = null,

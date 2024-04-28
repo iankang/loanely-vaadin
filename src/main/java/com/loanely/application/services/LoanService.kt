@@ -1,5 +1,8 @@
 package com.loanely.application.services
 
+import com.loanely.application.data.entities.LoanChannelEntity
+import com.loanely.application.data.entities.LoanStatus
+import com.loanely.application.data.entities.LoanTypeEntity
 import com.loanely.application.data.entities.Loans
 import com.loanely.application.repositories.LoanRepository
 import org.springframework.stereotype.Service
@@ -29,5 +32,21 @@ class LoanService(
 
     fun count(): Long {
         return loanRepository.count()
+    }
+
+    fun addAll(list:List<Loans>): MutableList<Loans> {
+        return loanRepository.saveAll(list)
+    }
+
+    fun countByLoanChannel(loanChannelEntity: LoanChannelEntity):Long{
+        return loanRepository.countAllByLoanChannelEntity(loanChannelEntity)
+    }
+
+    fun countByLoanType(loanTypeEntity: LoanTypeEntity):Long{
+        return loanRepository.countAllByLoanTypeEntity(loanTypeEntity)
+    }
+
+    fun countByLoanStatus(loanStatus: LoanStatus):Long{
+        return loanRepository.countAllByLoanStatusEntity(loanStatus)
     }
 }

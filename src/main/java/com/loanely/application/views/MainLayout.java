@@ -55,11 +55,11 @@ public class MainLayout extends AppLayout {
         Recovery.setLabel("Recovery");
         Tab QualifiedBase = new Tab(VaadinIcon.GROUP.create(),new Span("Qualified Base"));
         QualifiedBase.setLabel("Qualified Base");
-        Tab Float = new Tab(VaadinIcon.CREDIT_CARD.create(),new Span("Float"));
-        Float.setLabel("Float");
+//        Tab Float = new Tab(VaadinIcon.CREDIT_CARD.create(),new Span("Float"));
+//        Float.setLabel("Float");
         Tab Settings = new Tab(VaadinIcon.COGS.create(),new Span("Settings"));
         Settings.setLabel("Settings");
-        Tabs tabs = new Tabs(Landing, Lending,Recovery,QualifiedBase, Float, Settings);
+        Tabs tabs = new Tabs(Landing, Lending,Recovery,QualifiedBase, Settings);
         tabs.setOrientation(Tabs.Orientation.VERTICAL);
         scroller.setContent(tabs);
 
@@ -78,9 +78,6 @@ public class MainLayout extends AppLayout {
                     break;
                 case "Qualified Base":
                     UI.getCurrent().navigate(QualifiedBaseView.class);
-                    break;
-                case "Float":
-                    UI.getCurrent().navigate(FloatManagementView.class);
                     break;
                 case "Settings":
                     UI.getCurrent().navigate(SettingsView.class);

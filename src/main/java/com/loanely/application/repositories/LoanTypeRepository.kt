@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface LoanTypeRepository:JpaRepository<LoanTypeEntity,Long> {
+
+    fun findByLoanType(loanType:String):LoanTypeEntity
 }

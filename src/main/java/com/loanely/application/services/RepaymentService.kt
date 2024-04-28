@@ -30,4 +30,8 @@ class RepaymentService(
     fun count():Long{
         return repaymentRepository.count()
     }
+
+    fun addAll(list:List<Repayment>): MutableList<Repayment> {
+        return repaymentRepository.saveAll(list)
+    }
 }

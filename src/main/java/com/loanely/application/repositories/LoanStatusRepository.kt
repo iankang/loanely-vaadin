@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface LoanStatusRepository:JpaRepository<LoanStatus,Long> {
+
+    fun findByLoanStatus(loanStatus:String):LoanStatus
 }

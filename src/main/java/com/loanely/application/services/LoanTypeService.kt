@@ -34,4 +34,8 @@ class LoanTypeService(
     fun addAll(loanTypes:List<LoanTypeEntity>): MutableList<LoanTypeEntity> {
         return loanTypeRepository.saveAll(loanTypes)
     }
+
+    fun findByLoanType(loanType:String):LoanTypeEntity{
+        return loanTypeRepository.findByLoanType(loanType)
+    }
 }
