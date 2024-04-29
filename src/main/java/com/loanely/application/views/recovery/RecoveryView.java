@@ -3,8 +3,11 @@ package com.loanely.application.views.recovery;
 import com.loanely.application.data.SamplePerson;
 import com.loanely.application.data.entities.Repayment;
 import com.loanely.application.services.RepaymentService;
+import com.loanely.application.services.RepaymentTypeService;
 import com.loanely.application.services.SamplePersonService;
 import com.loanely.application.views.MainLayout;
+import com.loanely.application.views.components.StatisticComponent;
+import com.loanely.application.views.components.StatisticsGroup;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
@@ -41,16 +44,31 @@ import javax.persistence.criteria.*;
 public class RecoveryView extends Div {
 
     private final RepaymentService repaymentService;
+    private final RepaymentTypeService repaymentTypeService;
 
-    public RecoveryView(RepaymentService repaymentService) {
+    public RecoveryView(RepaymentService repaymentService, RepaymentTypeService repaymentTypeService) {
 
         this.repaymentService = repaymentService;
+        this.repaymentTypeService = repaymentTypeService;
+
+        HorizontalLayout topRecoveryStats = new HorizontalLayout();
+        topRecoveryStats.setWidthFull();
+        topRecoveryStats.setPadding(true);
+        topRecoveryStats.setSpacing(true);
+        topRecoveryStats.setAlignItems(FlexComponent.Alignment.STRETCH);
+        topRecoveryStats.setJustifyContentMode(FlexComponent.JustifyContentMode.AROUND);
+
+        StatisticComponent repaymentCount = new StatisticComponent(String.valueOf(repaymentService.count()), "Repayment Count");
+        StatisticComponent repaymentCountbySweep = new StatisticComponent(String.valueOf(repaymentService.countByRepaymentType(repaymentTypeService.findByRepaymentTypeString("SWEEP"))),"Repayment Count By Sweep");
+        StatisticComponent repaymentCountbyManual = new StatisticComponent(String.valueOf(repaymentService.countByRepaymentType(repaymentTypeService.findByRepaymentTypeString("MANUAL"))),"Repayment Count By Manual repayment");
+        StatisticsGroup group =  new StatisticsGroup(repaymentCount, repaymentCountbySweep,repaymentCountbyManual);
+        topRecoveryStats.add(group);
 
         GridCrud<Repayment> repaymentGridCrud = new GridCrud<>(Repayment.class, repaymentService);
         repaymentGridCrud.getCrudFormFactory().setUseBeanValidation(true);
 
 
-        add(repaymentGridCrud);
+        add(topRecoveryStats, repaymentGridCrud);
     }
 
 

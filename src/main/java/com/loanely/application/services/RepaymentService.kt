@@ -1,6 +1,7 @@
 package com.loanely.application.services
 
 import com.loanely.application.data.entities.Repayment
+import com.loanely.application.data.entities.RepaymentTypeEntity
 import com.loanely.application.repositories.RepaymentRepository
 import org.springframework.stereotype.Service
 import org.vaadin.crudui.crud.CrudListener
@@ -34,4 +35,10 @@ class RepaymentService(
     fun addAll(list:List<Repayment>): MutableList<Repayment> {
         return repaymentRepository.saveAll(list)
     }
+
+    fun countByRepaymentType(repaymentTypeEntity: RepaymentTypeEntity):Long{
+        return repaymentRepository.countAllByRepaymentType(repaymentTypeEntity)
+    }
+
+
 }

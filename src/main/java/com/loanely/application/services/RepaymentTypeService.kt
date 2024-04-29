@@ -34,4 +34,8 @@ class RepaymentTypeService(
     fun count():Long{
         return repaymentTypeRepository.count()
     }
+
+    fun findByRepaymentTypeString(repaymentTypeString:String):RepaymentTypeEntity{
+        return repaymentTypeRepository.findByRepaymentType(repaymentTypeString)
+    }
 }

@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface RepaymentTypeRepository:JpaRepository<RepaymentTypeEntity,Long> {
+
+    fun findByRepaymentType(repaymentType:String):RepaymentTypeEntity
 }

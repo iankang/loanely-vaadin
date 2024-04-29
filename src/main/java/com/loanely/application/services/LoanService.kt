@@ -4,9 +4,12 @@ import com.loanely.application.data.entities.LoanChannelEntity
 import com.loanely.application.data.entities.LoanStatus
 import com.loanely.application.data.entities.LoanTypeEntity
 import com.loanely.application.data.entities.Loans
+import com.loanely.application.data.models.response.PrincipalSum
 import com.loanely.application.repositories.LoanRepository
 import org.springframework.stereotype.Service
 import org.vaadin.crudui.crud.CrudListener
+import java.math.BigDecimal
+import java.util.*
 
 @Service
 class LoanService(
@@ -48,5 +51,13 @@ class LoanService(
 
     fun countByLoanStatus(loanStatus: LoanStatus):Long{
         return loanRepository.countAllByLoanStatusEntity(loanStatus)
+    }
+
+    fun getDateAndSum(): MutableMap<Date, Float> {
+        val dateSumMap = mutableMapOf<Date,Float>()
+        loanRepository.getDateAndPrincipalSum().forEach { item ->
+            dateSumMap[item.loanDate] = item.principalSum
+        }
+        return dateSumMap
     }
 }
